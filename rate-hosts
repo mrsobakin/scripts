@@ -1,0 +1,8 @@
+#!/bin/sh
+input="$1"
+[ -z "$input" ] && input="-"
+
+pings="1"
+threads="16"
+
+cat "$input" | xargs -P$threads -I{} bash -c "ping -c $pings {} 2>/dev/null | awk -F '/' 'END { if(\$5) { print \$5, \"{}\"} }'" | sort -n -t' ' -k1

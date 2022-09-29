@@ -1,0 +1,5 @@
+#!/bin/sh
+
+url=$(xfce4-screenshooter -rs /dev/stdout | ifne curl -F "upfile=@-;filename=blob;type=image/png" "https://yandex.ru/images/search?rpt=imageview&format=json&request=%7B%22blocks%22%3A%5B%7B%22block%22%3A%22b-page_type_search-by-image__link%22%7D%5D%7D" --http1.1 | jq ".blocks[0].params.url")
+
+[ -z $url ] || xdg-open "https://yandex.ru/images/search?$url"

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+notify() { notify-send -a "QR Code" "QR Code" "$@"; }
+
+qr_data=$(xfce4-screenshooter -rs /dev/stdout | zbarimg -q --raw -)
+
+if [ -z "$qr_data" ]; then
+	notify "No QR code was found."
+else
+	res=$(notify "$qr_data" -A "Open URL" -A "Copy")
+
+	if [ $res == 0 ]; then
+		xdg-open "$qr_data"
+	elif [ $res == 1 ]; then
+		printf "$qr_data" | xclip -selection c
+	fi
+fi

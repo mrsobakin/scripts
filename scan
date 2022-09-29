@@ -1,0 +1,10 @@
+#!/bin/sh
+
+CROP_GEOMETRY="2585x3512+0+0"
+
+if [ "$1" ]; then
+    scanimage --format=png --quality-cal=no --progress | convert - -crop $CROP_GEOMETRY "$1"
+    echo
+else
+	echo "Usage: ./scan <out-png-file>"
+fi

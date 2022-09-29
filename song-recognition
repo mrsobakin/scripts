@@ -1,0 +1,26 @@
+#!/bin/sh
+
+TIMEOUT=25
+
+notify() { notify-send -a "Song Recognition" "Song Recognition" $@; }
+
+IFS=$'\n'
+set -o pipefail
+song=($(timeout $TIMEOUT songrec microphone-to-recognized-song -d pipewire | jq -r '.track | .subtitle, .title, .images.coverart'))
+
+[ $? -eq 124 ] && { notify -i error "Song was not found."; exit; }
+
+name="${song[0]} - ${song[1]}"
+
+coverart="$(mktemp)"
+curl "${song[2]}" -o $coverart
+
+action=$(notify -i $coverart -t 7500 "$name" -A "Search on YouTube" -A "Copy title")
+
+[ -z $action ] && exit
+
+if [ $action == 0 ]; then
+	xdg-open "https://www.youtube.com/results?search_query=$(printf "$name" | jq -sRr @uri)"
+elif [ $action == 1 ]; then
+	printf "$name" | xclip -selection c
+fi
