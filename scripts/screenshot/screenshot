@@ -1,0 +1,4 @@
+#!/bin/bash
+# DEPS: xfce4-screenshooter
+
+xfce4-screenshooter -s ~/Pictures/Screenshots/$(date +%s%N).png "$@"

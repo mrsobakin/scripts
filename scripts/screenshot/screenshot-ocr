@@ -1,3 +1,4 @@
 #!/bin/sh
+# DEPS: xfce4-screenshooter, tesseract, xclip
 
 xfce4-screenshooter -rs /dev/stdout | tesseract stdin stdout -l eng+rus 2> /dev/null | xclip -selection c

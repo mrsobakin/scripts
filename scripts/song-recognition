@@ -1,4 +1,5 @@
 #!/bin/sh
+# DEPS: notify-send, songrec, xdg-utils, xclip, jq, curl
 
 TIMEOUT=25
 

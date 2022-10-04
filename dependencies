@@ -1,0 +1,13 @@
+#!/bin/sh
+
+script_deps() {
+    sed -n '/^# DEPS: /{p;q}' "$1" | cut -c9- | sed 's/, /\n/g'
+}
+
+[ -f "$1" ] && { script_deps "$1"; exit; }
+
+[ -d "$1" ] || exit;
+
+find "$1" -type f | while IFS= read -r i; do
+    script_deps "$i"
+done | sort -u

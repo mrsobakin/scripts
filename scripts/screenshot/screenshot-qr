@@ -1,4 +1,5 @@
 #!/bin/sh
+# DEPS: xfce4-screenshooter, notify-send, zbarimg, xclip
 
 notify() { notify-send -a "QR Code" "QR Code" "$@"; }
 
